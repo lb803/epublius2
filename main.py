@@ -7,15 +7,18 @@ from config import Config
 def main():
     # Create instances
     config = Config()
-    epublius = Epublius()
+    epublius = Epublius(config.get_config('epublius'))
 
     # Program execution
     epublius.unzip_epub()
 
-    ## DEBUG
-    import os
-    print(os.listdir(epublius.tmp_dir))
+    contents = epublius.get_contents()
 
+    ## DEBUG
+    for c in contents:
+        print('---')
+        print(c)
+        
     epublius.cleanup()
     
 if __name__ == '__main__':
