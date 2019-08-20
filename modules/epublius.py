@@ -4,9 +4,12 @@ import argparse
 import tempfile
 import zipfile
 import shutil
+from bs4 import BeautifulSoup
 
 class Epublius:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
+
         argv = self.parse_args()
         self.args = self.process_args(argv)
 
@@ -52,3 +55,55 @@ class Epublius:
 
     def cleanup(self):
         shutil.rmtree(self.tmp_dir)
+
+    def get_contents(self):
+        contents = self.parse_toc()
+
+        for index, content in enumerate(contents):
+            input_path = os.path.join(self.tmp_dir,
+                                      self.config['ch_dir'],
+                                      content['input_file']
+            )
+
+            output_file = content['input_file'].replace('.xhtml', '.html')
+            
+            content_data = {'index': index,
+                            'output_file': output_file,
+                            'doi': self.get_doi(input_path),
+                            'input_path': input_path,
+                            'output_path': os.path.join(self.args['output'],
+                                                        output_file)
+            }
+            
+            contents[index].update(content_data)
+
+        return contents
+        
+    def parse_toc(self):
+        toc_path = os.path.join(self.tmp_dir,
+                                self.config['toc_dir'],
+                                self.config['toc_file']) 
+
+        with open(toc_path, 'r') as toc:
+            soup = BeautifulSoup(toc, 'html.parser')
+            listing = soup.find(id='toc').find_all('a')
+
+        contents = []
+        
+        for content in listing:
+            content_data = {'input_file': content['href'],
+                            'content_name': content.string
+            }
+            contents.append(content_data)
+
+        return contents
+
+    def get_doi(self, chapter):
+        with open(chapter, 'r') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+
+            doi = soup.find('span', self.config['doi_class'])
+            if doi:
+                return doi.string
+            else:
+                return False

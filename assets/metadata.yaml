@@ -1,0 +1,12 @@
+---
+lang: {lang}
+date-meta: {date}
+booktitle: {booktitle}
+bookpage: {bookpage}
+contents: {contents}
+copyright: {copyright}
+current_page_url: {current_page_url}
+prev: {prev}
+next: {next}
+pagetitle: {pagetitle}
+---
