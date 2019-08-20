@@ -72,7 +72,8 @@ class Epublius:
                             'doi': self.get_doi(input_path),
                             'input_path': input_path,
                             'output_path': os.path.join(self.args['output'],
-                                                        output_file)
+                                                        output_file),
+                            'css': self.get_css(input_path)
             }
             
             contents[index].update(content_data)
@@ -107,3 +108,12 @@ class Epublius:
                 return doi.string
             else:
                 return False
+
+    def get_css(self, chapter):
+        with open(chapter, 'r') as file:
+            soup = BeautifulSoup(file, 'html.parser')
+
+            entries = soup.findAll('link', rel='stylesheet')
+            css_paths = [css['href'] for css in entries]
+
+            return css_paths
