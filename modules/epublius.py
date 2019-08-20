@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 import os
 import argparse
+import tempfile
+import zipfile
+import shutil
 
 class Epublius:
     def __init__(self):
         argv = self.parse_args()
         self.args = self.process_args(argv)
+
+        self.tmp_dir = tempfile.mkdtemp()
 
     def parse_args(self, argv=None):
         parser = argparse.ArgumentParser()
@@ -40,3 +45,10 @@ class Epublius:
         }
         
         return args
+
+    def unzip_epub(self):
+        with zipfile.ZipFile(self.args['epub'], 'r') as file:
+            file.extractall(self.tmp_dir)
+
+    def cleanup(self):
+        shutil.rmtree(self.tmp_dir)

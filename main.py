@@ -8,9 +8,13 @@ def main():
     epublius = Epublius()
 
     # Program execution
-
+    epublius.unzip_epub()
+    
     ## DEBUG
-    print(epublius.args)
+    import os
+    print(os.listdir(epublius.tmp_dir))
 
+    epublius.cleanup()
+    
 if __name__ == '__main__':
     main()
