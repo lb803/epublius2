@@ -2,6 +2,7 @@
 import os
 import tempfile
 import datetime
+import json
 
 class Metadata:
     def __init__(self, config, args):
@@ -10,39 +11,34 @@ class Metadata:
 
     def get_metadata(self, contents, index):
 
-        data = {'lang': 'en',
-                'date': datetime.datetime.now().isoformat(),
-                'booktitle': self.args['title'],
-                'bookpage': self.args['url'],
-                'contents': self.config['contents'],
-                'copyright': self.config['copyright'],
-                'current_page_url': self.get_page_url(contents, index), 
-                'prev': contents[index-1]['output_file'],
-                'pagetitle': contents[index]['content_name']
+        metadata = {# Page specific
+                    'lang': 'en',
+                    'date': datetime.datetime.now().isoformat(),
+
+                    # Links
+                    'css': contents[index]['css'],
+
+                    # Menu
+                    'bookpage': self.args['url'],
+                    'contents': self.config['contents'],
+                    'copyright': self.config['copyright'],
+                    'current_page_url': self.get_page_url(contents, index),
+            
+                    # Bootstrap breadcrumb
+                    'booktitle': self.args['title'],
+                    'pagetitle': contents[index]['content_name'],                    
+                    # Footer
+                    'prev': contents[index-1]['output_file'],
+                    'next': self.get_next(contents, index)
         }
-        try:
-            data['next'] = contents[index+1]['output_file']
-        except IndexError:
-            data['next'] = contents[0]['output_file']
-
-        metadata_file_path = os.path.abspath(self.config['metadata'])
-        with open(metadata_file_path, 'r') as f:
-            metadata = f.read().format(**data)
-
-        #if contents[index]['doi']:
-            # TODO Work on this
-
         metadata_file = self.write_metadata(metadata)
 
         return metadata_file
         
     def write_metadata(self, metadata):
-        with tempfile.NamedTemporaryFile(mode='w+',
-                                         encoding='utf-8',
-                                         suffix='.yaml',
-                                         delete=False) as tf:
-            tf.write(metadata)
-            tf.seek(0)
+        with tempfile.NamedTemporaryFile(mode='w+', encoding='utf-8',
+                                         suffix='.json', delete=False) as tf:
+            json.dump(metadata, tf)
 
         return tf.name
 
@@ -54,5 +50,15 @@ class Metadata:
 
         return '/'.join(url_items)
 
+    def get_next(self, contents, index):
+        # metadata['next'] takes the value of the following book section.
+        # In the special case of the last chapter, takes the first section.
+        try:
+            next = contents[index+1]['output_file']
+        except IndexError:
+            next = contents[0]['output_file']
+
+        return next
+    
     def cleanup(self, metadata):
         os.remove(metadata)
