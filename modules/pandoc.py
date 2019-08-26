@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 import os
 import subprocess
-import tempfile
-import datetime
-import html
 
 class Pandoc():
     def __init__(self, config):
