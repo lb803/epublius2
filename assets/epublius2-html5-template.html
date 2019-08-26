@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="$lang$" xml:lang="$lang$"$if(dir)$ dir="$dir$"$endif$>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$" />
+$endif$
+$if(keywords)$
+  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$" />
+$endif$
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+$if(quotes)$
+      q { quotes: "“" "”" "‘" "’"; }
+$endif$
+  </style>
+$if(highlighting-css)$
+  <style>
+$highlighting-css$
+  </style>
+$endif$
+$for(css)$
+  <link rel="stylesheet" href="$css$" />
+$endfor$
+$if(math)$
+  $math$
+$endif$
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+<!-- OBP specific -->
+<!-- Bootstrap and Font Awesome CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/fontawesome.min.css" />
+<link rel="stylesheet" href="css/solid.min.css" />
+
+<!-- ePublius2 CSS -->
+<link rel="stylesheet" href="css/epublius2.css" />
+
+<!-- jQuery -->
+<script src="js/jquery-3.4.1.slim.min.js"></script>
+<!-- Bootstrap JS libs -->
+<script src="js/util.js"></script>
+<script src="js/collapse.js"></script>
+
+<!-- JS scripts-->
+<script src="js/jquery-cookie.js"></script>
+
+<!-- Google Analytics -->
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-322127-44']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<script src="js/zoom-selector.js"></script>
+
+<!-- Piwik -->
+<script src="data:application/javascript;charset=utf-8;base64,dmFyIF9wYXEgPSBfcGFxIHx8IFtdOw0KX3BhcS5wdXNoKFsic2V0Q29va2llRG9tYWluIiwgIioub3BlbmJvb2twdWJsaXNoZXJzLmNvbSJdKTsNCl9wYXEucHVzaChbJ3RyYWNrUGFnZVZpZXcnXSk7DQpfcGFxLnB1c2goWydlbmFibGVMaW5rVHJhY2tpbmcnXSk7DQooZnVuY3Rpb24oKSB7DQogIHZhciB1PSIvL2FuYWx5dGljcy5vcGVuYm9va3B1Ymxpc2hlcnMuY29tLyI7DQogIF9wYXEucHVzaChbJ3NldFRyYWNrZXJVcmwnLCB1KydwaXdpay5waHAnXSk7DQogIF9wYXEucHVzaChbJ3NldFNpdGVJZCcsICcxJ10pOw0KICB2YXIgZD1kb2N1bWVudCwgZz1kLmNyZWF0ZUVsZW1lbnQoJ3NjcmlwdCcpLCBzPWQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoJ3NjcmlwdCcpWzBdOw0KICBnLnR5cGU9J2FwcGxpY2F0aW9uL2phdmFzY3JpcHQnOyBnLmFzeW5jPXRydWU7IGcuZGVmZXI9dHJ1ZTsgZy5zcmM9dSsncGl3aWsuanMnOyBzLnBhcmVudE5vZGUuaW5zZXJ0QmVmb3JlKGcscyk7DQp9KSgpOw=="></script>
+  
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+$for(include-before)$
+$include-before$
+$endfor$
+
+<!-- OBP specific -->
+<!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" id="reader-nav">
+    <a class="navbar-brand" href="https://www.openbookpublishers.com/">
+      <img src="logo/logo.png" id="OBP-logo" class="d-inline-block align-top" alt="OPB logo" />
+      <img src="logo/open_access.png" id="OA-logo" alt="OA logo" />
+    </a>
+
+    <!-- Buttons on Navbar -->
+    <span>
+      <!-- Search button -->
+      <button class="navbar-toggler mr-2" type="button" data-toggle="collapse"
+          data-target="#nav-search-bar" aria-controls="nav-search-bar"
+          aria-expanded="false" aria-label="Toggle the search field">
+        <span class="nav-button-icon"><i class="fas fa-search"></i></span>
+      </button>
+
+      <!-- Bars button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarToggler" aria-controls="navbarToggler"
+          aria-expanded="false" aria-label="Toggle navigation">
+        <span class="nav-button-icon"><i class="fas fa-bars"></i></span>
+      </button>
+    </span>
+
+    <!-- Menu toggled by the "bars button" -->
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav d-lg-none">
+
+        <li class="nav-item">
+          <a href="$bookpage$">
+            <img id="nav-book-cover" class="rounded" src="image/1.png" alt="Book cover" />
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+            role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <span class="fas fa-book-open mr-2"></span>Go to
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="$contents$">Contents</a>
+            <a class="dropdown-item" href="$copyright$">Copyright</a>
+          </div>
+
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="$bookpage$">
+            <span class="fas fa-shopping-cart mr-2"></span>Buy the book
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://translate.google.com/translate?sl=auto&amp;tl=af&amp;u=$current_page_url$&amp;sandbox=1" title="Click to translate this page">
+            <span class="fas fa-language mr-2"></span>Translate this page
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.openbookpublishers.com/donate.html" title="Click to donate">
+            <span class="fas fa-donate mr-2"></span>Donate 1£
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- Search bar toggled by the "Search button"-->
+    <div class="collapse navbar-collapse" id="nav-search-bar">
+      <div class="d-lg-none">
+        <form id="google-search" action="https://www.google.co.uk/search" method="get">
+          <div class="form-group">
+            <input  accesskey="4" id="search-term" name="q"
+                class="form-control" type="text" placeholder="Search this book"
+                aria-label="Search this book" />
+            <input id="search-button" title="Search" type="hidden" value="Search" />
+            <input name="sitesearch" type="hidden" value="$current_page_url$" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </nav>
+
+
+  <!-- Main container -->
+  <div class="container-fluid mt-3">
+
+    <div class="row">
+
+      <!-- Legacy sidebar-->
+      <div class="col-md-2 d-print-none d-none d-lg-block">
+        <div class="row">
+
+          <div class="col-12 sidebar-button blue-bg" style="text-align: inherit;">
+            Go to
+          </div>
+
+          <div class="col-12 sidebar-link">
+            <a href="$contents$">Contents</a>
+          </div>
+
+          <div class="col-12 sidebar-link">
+            <a href="$copyright$">Copyright</a>
+          </div>
+
+          <div class="col-12 mt-5 mb-3">
+            <a href="$bookpage$">
+              <img src="image/1.png" id="book-cover" alt="Book cover" />
+            </a>
+          </div>
+
+          <div class="col-12 mt-1 sidebar-button blue-bg">
+            <a href="$bookpage$">Buy the book</a>
+          </div>
+          <div class="col-12 mt-1 sidebar-button blue-bg">
+            <a href="https://translate.google.com/translate?sl=auto&amp;tl=af&amp;u=$current_page_url$&amp;sandbox=1" title="Click to translate this page">TRANSLATE THIS PAGE</a>
+          </div>
+          <div class="col-12 mt-1 sidebar-button orange-bg">
+            <a href="https://www.openbookpublishers.com/donate.html" title="Click to donate">Donate 1£</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="col">
+
+      <!-- Breadcrumb menu -->
+        <div class="row">
+          <div class="col">
+
+            <nav class="d-print-none" aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="$contents$">$booktitle$</a></li>
+                <li class="breadcrumb-item active" aria-current="page">$pagetitle$</li>
+              </ol>
+            </nav>
+
+          </div>
+        </div>
+
+        <!-- Text size and search box -->
+        <div class="row justify-content-between d-print-none d-none d-lg-flex">
+	  <div class="col col-md-2">
+	    <span id="zoom-small" class="zoom-selector small">
+	      <a href="#">A</a>
+	    </span>
+
+	    <span id="zoom-medium" class="zoom-selector medium">
+	      <a href="#">A</a>
+	    </span>
+
+	    <span id="zoom-large" class="zoom-selector large">
+	      <a href="#">A</a>
+	    </span>
+
+	  </div>
+
+          <div class="col col-md-3">
+            <form id="google-search-lg" action="https://www.google.co.uk/search" method="get">
+              <div class="form-group">
+                <input  accesskey="4" id="search-term-lg" name="q"
+                    class="form-control" type="text" placeholder="Search this book"
+                    aria-label="Search this book" />
+                <input id="search-button-lg" title="Search" type="hidden" value="Search" />
+                <input name="sitesearch" type="hidden" value="$current_page_url$" />
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Book header for print media -->
+        <div class="row d-print-flex d-none">
+          <div class="col">
+            <div class="row">
+              <div class="col-2">
+                <img src="logo/logo.png" id="OBP-logo-jumbotron" style="width: 100%" alt="OPB logo" />
+              </div>
+              <div class="col-9">
+                <p><strong>$title$</strong><br />More info and resources at: $bookpage$</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book content -->
+        <div class="row">
+          <div class="col" id="mainwin">
+
+$body$
+
+<!-- OBP specific -->
+          <!-- This closes the book content col-->
+          </div>
+        <!-- This closes the book content row-->
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="row mt-2 mb-3 d-print-none">
+          <div class="col-6 text-right">
+            <a href="$prev$" title="Go to the previous chapter">
+              <span class="mr-1">
+                <i class="fas fa-caret-left"></i>
+              </span>
+              <span>Previous Chapter</span>
+            </a>
+          </div>
+          <div class="col-6 text-left">
+            <a href="$next$" title="Go to the next chapter">
+              <span>Next Chapter</span>
+              <span class="ml-1">
+                <i class="fas fa-caret-right"></i>
+              </span>
+            </a>
+          </div>
+
+        </div>
+
+  <!-- Close content divs-->
+      </div>
+    </div>
+  </div>
+
+$for(include-after)$
+$include-after$
+$endfor$
+</body>
+</html>
