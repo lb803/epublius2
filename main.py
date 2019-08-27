@@ -17,12 +17,17 @@ def main():
     # Program execution
     epublius.unzip_epub()
 
+    ## Get ebook contents
     contents = epublius.get_contents()
 
     for index, content in enumerate(contents):
+        ## Gather metadata and convert files to HTML5
         metadata_path = metadata.get_metadata(contents, index)
         pandoc.convert_files(content, metadata_path)
         metadata.cleanup(metadata_path)
+
+        ## Fix links in content (as the file extension is now .html)
+        epublius.manipulate_links(content)
         
     epublius.cleanup()
     

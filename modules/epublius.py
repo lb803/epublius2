@@ -5,6 +5,7 @@ import tempfile
 import zipfile
 import shutil
 from bs4 import BeautifulSoup
+import re
 
 class Epublius:
     def __init__(self, config):
@@ -117,3 +118,11 @@ class Epublius:
             css_paths = [css['href'] for css in entries]
 
             return css_paths
+
+    def manipulate_links(self, content):
+        with open(content['output_path'], 'r') as sources:
+            lines = sources.readlines()
+            
+        with open(content['output_path'], 'w') as destination:
+            for line in lines:
+                destination.write(re.sub(r'.xhtml', '.html', line))
