@@ -126,3 +126,41 @@ class Epublius:
         with open(content['output_path'], 'w') as destination:
             for line in lines:
                 destination.write(re.sub(r'.xhtml', '.html', line))
+
+    def copy_files(self, section):
+        files = {}
+        dir_list = self.config[section].split(',')
+
+        for dir in dir_list:
+            file_list = os.listdir(self.get_dir_path(section, dir))
+
+            for file in file_list:
+                dict_key = '/'.join([dir, file])
+                files[dict_key] = {'src': self.get_src(section, dir, file),
+                                   'dest': self.get_dest(dir, file)
+                }
+
+        for file in files.values():
+            # Create sub-dir if necessary
+            os.makedirs(os.path.dirname(file['dest']), exist_ok=True)
+
+            # Copyfiles files
+            shutil.copyfile(file['src'], file['dest'])
+
+
+    def get_dir_path(self, section, dir):
+        if section == 'epub_media':
+            return os.path.join(self.tmp_dir, dir)
+        elif section == 'epublius_media':
+            return os.path.abspath(dir)
+        else:
+            raise
+
+    def get_src(self, section, dir, file):
+        return os.path.join(self.get_dir_path(section, dir), file)
+            
+    def get_dest(self, dir, file):
+        return os.path.join(self.args['output'],
+                            os.path.basename(os.path.normpath(dir)),
+                            file)
+

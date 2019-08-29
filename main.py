@@ -28,7 +28,11 @@ def main():
 
         ## Fix links in content (as the file extension is now .html)
         epublius.manipulate_links(content)
-        
+
+    ## Copy media to output folder
+    epublius.copy_files('epub_media')
+    epublius.copy_files('epublius_media')
+            
     epublius.cleanup()
     
 if __name__ == '__main__':
